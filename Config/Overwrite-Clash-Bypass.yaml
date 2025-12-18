@@ -69,7 +69,6 @@ dns:
   fake-ip-filter:
     - "*.doppelmayr.local"
     - "*.doppelmayr.cn"
-    - "doppelmayr.local"
     - "10.19.*"
     - "rule-set:fakeip_filter_domain"
     - "internetbeacon.msedge.net"
