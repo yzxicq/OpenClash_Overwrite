@@ -83,6 +83,7 @@ dns:
   nameserver-policy:
     "*.doppelmayr.cn": 10.19.0.8
     "*.doppelmayr.local": 10.19.0.8
+    "+.doppelmayr.cn": 10.19.0.8
     "rule-set:banAd_domain": rcode://success
 proxies: 
   - name: "🟢 直连"
