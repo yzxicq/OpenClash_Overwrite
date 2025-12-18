@@ -19,7 +19,7 @@ profile:
   store-fake-ip: true
 # ================= DNS =================
 dns:
-#  enable: true
+  enable: true
   listen: 0.0.0.0:7874
   ipv6: false
   prefer-h3: false # 是否开启 DoH 支持 HTTP/3，将并发尝试
@@ -67,7 +67,7 @@ dns:
     - "rule-set:private_domain"
     - "rule-set:cn_domain"
   default-nameserver:
-      - 10.19.0.8
+    - 10.19.0.8
     - 223.5.5.5
     - 119.29.29.29
   proxy-server-nameserver:
