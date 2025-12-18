@@ -217,7 +217,7 @@ rules:
   - DOMAIN-SUFFIX,local,DIRECT
   - DOMAIN-SUFFIX,doppelmayr.com,欧洲节点
   # --- 核心服务端口直连 ---
-  - DST-PORT,53,DIRECT        # DNS 查询（指向域控）
+#  - DST-PORT,53,DIRECT        # DNS 查询（指向域控）
   - DST-PORT,88,DIRECT        # Kerberos 认证
   - DST-PORT,389,DIRECT       # LDAP
   - DST-PORT,445,DIRECT       # SMB 文件共享
