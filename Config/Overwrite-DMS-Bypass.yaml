@@ -195,13 +195,16 @@ rules:
   - DOMAIN-SUFFIX,local,DIRECT
   - DOMAIN-SUFFIX,doppelmayr.com,欧洲节点
   # --- 核心服务端口直连 ---
+  - DST-PORT,135,DIRECT
   - DST-PORT,53,DIRECT        # DNS 查询（指向域控）
   - DST-PORT,88,DIRECT        # Kerberos 认证
   - DST-PORT,389,DIRECT       # LDAP
   - DST-PORT,445,DIRECT       # SMB 文件共享
+  - DST-PORT,464,DIRECT
   - DST-PORT,3268,DIRECT      # 全局编录（GC）
   - DST-PORT,3269,DIRECT      # 全局编录 SSL
   - DST-PORT,3389,DIRECT      # 远程桌面（可选）
+  - DST-PORT,1024-65535,DIRECT
 
 # --- 第三方规则集 ---
   - RULE-SET,banAd_domain,隐私拦截
