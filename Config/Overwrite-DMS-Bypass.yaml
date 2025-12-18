@@ -24,6 +24,7 @@ dns:
   ipv6: false
   prefer-h3: false # 是否开启 DoH 支持 HTTP/3，将并发尝试
   respect-rules: true
+  use-hosts: true
   # 模式切换 redir-host / fake-ip
   enhanced-mode: fake-ip
   fake-ip-range: 198.18.0.1/16
@@ -31,8 +32,10 @@ dns:
   # 黑名单模式表示如果匹配成功则不返回 Fake-IP, 白名单模式时只有匹配成功才返回 Fake-IP
   fake-ip-filter-mode: blacklist
   fake-ip-filter:
-    - "_ldap._tcp.*"
-    - "_kerberos._tcp.*"
+    - "*.local"
+    - "_ldap.*"
+    - "_kerberos.*"
+    - "_msdcs.*"
     - "*.doppelmayr.cn"
     - "*.doppelmayr.local"
     - "10.19.*"
@@ -71,8 +74,8 @@ dns:
     - https://doh.pub/dns-query
   nameserver:
     - 10.19.0.8
-    - https://dns.google/dns-query
-    - https://dns.cloudflare.com/dns-query
+#    - https://dns.google/dns-query
+#    - https://dns.cloudflare.com/dns-query
   nameserver-policy:
     "*.doppelmayr.cn": 10.19.0.8
     "*.doppelmayr.local": 10.19.0.8
