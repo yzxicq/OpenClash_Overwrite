@@ -39,6 +39,8 @@ dns:
     - "*.doppelmayr.cn"
     - "*.doppelmayr.local"
     - "10.19.*"
+    - "msftconnecttest.com" # 解决 Windows 网络连接图标黄色感叹号
+    - "msftncsi.com"
     - "rule-set:fakeip_filter_domain"
     - "internetbeacon.msedge.net"
     - "rule-set:game_cn_domain"
@@ -88,12 +90,13 @@ proxies:
 tun:
   enable: true
   stack: system
+  dns-hijack:
     - "any:53"
     - "tcp://any:53"
   auto-route: true
   auto-redirect: true
   strict-route: false
-  auto-detect-interface: false
+  auto-detect-interface: true
   route-exclude-addresses:
     - 10.0.0.0/8
 
@@ -210,6 +213,7 @@ rules:
   
   # --- 内网域名直连 (确保 AD、Exchange 正常工作) ---
   - DOMAIN-SUFFIX,doppelmayr.cn,DIRECT
+  - DOMAIN-KEYWORD,autodiscover,DIRECT  # 专门给 Exchange 自动发现用的
   - DOMAIN-SUFFIX,doppelmayr.local,DIRECT
   - DOMAIN-SUFFIX,lan,DIRECT
   - DOMAIN-SUFFIX,local,DIRECT
@@ -224,7 +228,7 @@ rules:
   - DST-PORT,3268,DIRECT      # 全局编录（GC）
   - DST-PORT,3269,DIRECT      # 全局编录 SSL
   - DST-PORT,3389,DIRECT      # 远程桌面（可选）
-  - DST-PORT,1024-65535,DIRECT
+  - DST-PORT,49152-65535,DIRECT
 
 # --- 第三方规则集 ---
   - RULE-SET,banAd_domain,隐私拦截
