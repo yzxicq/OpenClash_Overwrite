@@ -19,7 +19,7 @@ profile:
   store-fake-ip: true
 # ================= DNS =================
 dns:
-  enable: true
+#  enable: true
   listen: 0.0.0.0:7874
   ipv6: false
   prefer-h3: false # 是否开启 DoH 支持 HTTP/3，将并发尝试
