@@ -40,6 +40,7 @@ dns:
     - "*.doppelmayr.local"
     - "+.doppelmayr.cn" # 使用 + 号通配符确保所有子域名生效
     - "+.doppelmayr.local"
+    - "mail.doppelmayr.cn"
     - "10.19.*"
     - "msftconnecttest.com" # 解决 Windows 网络连接图标黄色感叹号
     - "msftncsi.com"
@@ -66,7 +67,7 @@ dns:
     - "rule-set:private_domain"
     - "rule-set:cn_domain"
   default-nameserver:
-    - 10.19.0.8
+      - 10.19.0.8
     - 223.5.5.5
     - 119.29.29.29
   proxy-server-nameserver:
@@ -78,12 +79,13 @@ dns:
     - https://doh.pub/dns-query
   nameserver:
     - 10.19.0.8
-#    - https://dns.google/dns-query
-#    - https://dns.cloudflare.com/dns-query
-  nameserver-policy:
+nameserver-policy:
+    "geosite:private": 10.19.0.8
     "*.doppelmayr.cn": 10.19.0.8
     "*.doppelmayr.local": 10.19.0.8
+    "doppelmayr.cn": 10.19.0.8
     "+.doppelmayr.cn": 10.19.0.8
+    "+.doppelmayr.local": 10.19.0.8
     "rule-set:banAd_domain": rcode://success
 proxies: 
   - name: "🟢 直连"
