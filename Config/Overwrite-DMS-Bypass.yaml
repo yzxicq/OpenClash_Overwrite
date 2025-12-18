@@ -8,23 +8,33 @@ Urltest_Base: &Urltest_Base {type: url-test, include-all: true, tolerance: 20, i
 
 PProviders: &PProviders {type: http, interval: 86400, health-check: {enable: true, url: 'https://www.gstatic.com/generate_204', interval: 300}, filter: '^(?!.*(拒绝|直连|群|邀请|返利|循环|官网|客服|网站|网址|获取|订阅|流量|到期|机场|下次|版本|官址|备用|过期|已用|联系|邮箱|工单|贩卖|通知|倒卖|防止|国内|地址|频道|无法|说明|提示|特别|访问|支持|教程|关注|更新|作者|加入|USE|USED|TOTAL|EXPIRE|EMAIL|Panel|Channel|Author|traffic))'}
 mixed-port: 7890
+socks-port: 7891
 allow-lan: true
 mode: rule
 log-level: info
 ipv6: false
 
 external-controller: 0.0.0.0:9090
-
+profile:
+  store-selected: true
+  store-fake-ip: true
 # ================= DNS =================
 dns:
   enable: true
+  listen: 0.0.0.0:1053
   ipv6: false
+  prefer-h3: false # 是否开启 DoH 支持 HTTP/3，将并发尝试
+  respect-rules: true
+  # 模式切换 redir-host / fake-ip
   enhanced-mode: fake-ip
   fake-ip-range: 198.18.0.1/16
+  # 模式切换 whitelist/blacklist 
+  # 黑名单模式表示如果匹配成功则不返回 Fake-IP, 白名单模式时只有匹配成功才返回 Fake-IP
+  fake-ip-filter-mode: blacklist
 
   fake-ip-filter:
-    - "*.doppelmayr.local"
     - "*.doppelmayr.cn"
+    - "*.doppelmayr.local"
     - "10.19.*"
     - "rule-set:fakeip_filter_domain"
     - "internetbeacon.msedge.net"
@@ -63,8 +73,8 @@ dns:
     - https://dns.google/dns-query
     - https://dns.cloudflare.com/dns-query
   nameserver-policy:
-    "*.doppelmayr.local": 10.19.0.8
     "*.doppelmayr.cn": 10.19.0.8
+    "*.doppelmayr.local": 10.19.0.8
     "rule-set:banAd_domain": rcode://success
 proxies: 
   - name: "🟢 直连"
@@ -73,10 +83,15 @@ proxies:
 # ================= TUN =================
 tun:
   enable: true
-  stack: system
+  stack: mixed
+  mtu: 1500
+    - "any:53"
+    - "tcp://any:53"
   auto-route: false
   auto-redirect: true
-  strict-route: false
+  auto-detect-interface: false
+  route-exclude-addresses:
+    - 10.19.0.0/16
 
 # ================= Proxy Providers =================
 PProviders: &PProviders
@@ -184,13 +199,14 @@ rules:
 #  - IP-CIDR,10.19.90.0/24,DIRECT    # VPN
 
 # --- 内网 VLAN 直连 ---
-  - IP-CIDR,10.19.0.0/16,DIRECT        # 公司内网总网段
+  - IP-CIDR,10.19.0.0/16,DIRECT,no-resolve        # 公司内网总网段
+  - IP-CIDR,10.0.0.0/8,DIRECT,no-resolve
   - IP-CIDR,224.0.0.0/4,DIRECT        # 多播
   - IP-CIDR,255.255.255.255/32,DIRECT # 广播
   
   # --- 内网域名直连 (确保 AD、Exchange 正常工作) ---
-  - DOMAIN-SUFFIX,doppelmayr.local,DIRECT
   - DOMAIN-SUFFIX,doppelmayr.cn,DIRECT
+  - DOMAIN-SUFFIX,doppelmayr.local,DIRECT
   - DOMAIN-SUFFIX,lan,DIRECT
   - DOMAIN-SUFFIX,local,DIRECT
   - DOMAIN-SUFFIX,doppelmayr.com,欧洲节点
