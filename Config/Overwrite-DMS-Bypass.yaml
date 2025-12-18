@@ -20,7 +20,7 @@ profile:
 # ================= DNS =================
 dns:
   enable: true
-  listen: 0.0.0.0:1053
+  listen: 0.0.0.0:7874
   ipv6: false
   prefer-h3: false # 是否开启 DoH 支持 HTTP/3，将并发尝试
   respect-rules: true
@@ -31,6 +31,8 @@ dns:
   # 黑名单模式表示如果匹配成功则不返回 Fake-IP, 白名单模式时只有匹配成功才返回 Fake-IP
   fake-ip-filter-mode: blacklist
   fake-ip-filter:
+    - "_ldap._tcp.*"
+    - "_kerberos._tcp.*"
     - "*.doppelmayr.cn"
     - "*.doppelmayr.local"
     - "10.19.*"
@@ -82,14 +84,15 @@ proxies:
 # ================= TUN =================
 tun:
   enable: true
-  stack: mixed
+  stack: system
     - "any:53"
     - "tcp://any:53"
-  auto-route: false
+  auto-route: true
   auto-redirect: true
+  strict-route: false
   auto-detect-interface: false
   route-exclude-addresses:
-    - 10.19.0.0/16
+    - 10.0.0.0/8
 
 # ================= Proxy Providers =================
 PProviders: &PProviders
