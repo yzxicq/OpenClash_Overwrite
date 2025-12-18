@@ -38,6 +38,8 @@ dns:
     - "_msdcs.*"
     - "*.doppelmayr.cn"
     - "*.doppelmayr.local"
+    - "+.doppelmayr.cn" # 使用 + 号通配符确保所有子域名生效
+    - "+.doppelmayr.local"
     - "10.19.*"
     - "msftconnecttest.com" # 解决 Windows 网络连接图标黄色感叹号
     - "msftncsi.com"
